@@ -1,0 +1,9 @@
+{
+  "name": "gemma4-power",
+  "model": "ollama/gemma4:26b-32k",
+  "temperature": 0.1,
+  "maxTokens": 12288,
+  "contextWindow": 32768,
+  "minimumRamGb": 24,
+  "tags": ["deep", "local", "coding"]
+}

@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.swp
+*.swo
+*~
+
+.wuncode/
+.tmp/
+tmp/
+
+*.wuncode.*.bak

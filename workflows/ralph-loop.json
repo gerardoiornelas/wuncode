@@ -1,0 +1,17 @@
+{
+  "name": "ralph-loop",
+  "description": "Default sequential multi-agent workflow for local coding tasks.",
+  "stages": ["planner", "coder", "reviewer", "tester"],
+  "maxIterations": 5,
+  "exitCriteria": ["review_passed", "tests_passed"],
+  "failureCriteria": ["blocked", "max_iterations_reached"],
+  "sharedStatePath": ".wuncode/runs/<run-id>/state.json",
+  "handoffArtifacts": [
+    "plan",
+    "success_criteria",
+    "patch",
+    "review_report",
+    "test_results"
+  ]
+}
+

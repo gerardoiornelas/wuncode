@@ -1,0 +1,38 @@
+[
+  {
+    "name": "planner",
+    "promptFile": "agents/planner.md",
+    "defaultPreset": "gemma4-balanced",
+    "allowedTools": ["read", "search", "plan"],
+    "inputs": ["task", "repo_context", "rules", "agents_md"],
+    "outputs": ["plan", "success_criteria"],
+    "canHandoffTo": ["coder"]
+  },
+  {
+    "name": "coder",
+    "promptFile": "agents/coder.md",
+    "defaultPreset": "gemma4-balanced",
+    "allowedTools": ["read", "search", "edit", "run"],
+    "inputs": ["task", "plan", "repo_context", "rules", "agents_md"],
+    "outputs": ["patch", "change_summary"],
+    "canHandoffTo": ["reviewer", "tester"]
+  },
+  {
+    "name": "reviewer",
+    "promptFile": "agents/reviewer.md",
+    "defaultPreset": "gemma4-12b",
+    "allowedTools": ["read", "search", "diff"],
+    "inputs": ["task", "plan", "patch", "repo_context", "rules", "agents_md"],
+    "outputs": ["review_report", "findings"],
+    "canHandoffTo": ["coder", "tester"]
+  },
+  {
+    "name": "tester",
+    "promptFile": "agents/tester.md",
+    "defaultPreset": "gemma4-fast",
+    "allowedTools": ["read", "run"],
+    "inputs": ["task", "patch", "repo_context", "agents_md"],
+    "outputs": ["test_results", "validation_summary"],
+    "canHandoffTo": ["coder", "reviewer"]
+  }
+]

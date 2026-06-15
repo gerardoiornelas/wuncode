@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+WUN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=lib/common.sh
+source "${WUN_ROOT}/lib/common.sh"
+# shellcheck source=lib/platform.sh
+source "${WUN_ROOT}/lib/platform.sh"
+# shellcheck source=lib/config.sh
+source "${WUN_ROOT}/lib/config.sh"
+# shellcheck source=lib/ollama.sh
+source "${WUN_ROOT}/lib/ollama.sh"
+# shellcheck source=lib/doctor.sh
+source "${WUN_ROOT}/lib/doctor.sh"
+
+wun_main() {
+  local command="${1:-help}"
+  shift || true
+
+  case "${command}" in
+    doctor)
+      wun_doctor "$@"
+      ;;
+    ollama)
+      wun_ollama_command "$@"
+      ;;
+    preset)
+      wun_preset_command "$@"
+      ;;
+    agents)
+      wun_agents_command "$@"
+      ;;
+    workflows)
+      wun_workflows_command "$@"
+      ;;
+    pull-model)
+      [ $# -ge 1 ] || wun_fail "Usage: wun pull-model <model>"
+      wun_pull_model "$1"
+      ;;
+    init)
+      wun_init_template "$@"
+      ;;
+    update)
+      wun_update
+      ;;
+    help|-h|--help)
+      wun_help
+      ;;
+    *)
+      wun_fail "Unknown command: ${command}"
+      ;;
+  esac
+}
+
+wun_help() {
+  cat <<'EOF'
+Usage:
+  wun doctor
+  wun ollama status
+  wun ollama start
+  wun preset list
+  wun preset use <name>
+  wun agents list
+  wun workflows list
+  wun workflows show <name>
+  wun pull-model <model>
+  wun init <project-type>
+  wun update
+EOF
+}
+
+wun_ollama_command() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    status)
+      wun_ollama_status
+      ;;
+    start)
+      wun_ollama_start
+      ;;
+    *)
+      wun_fail "Usage: wun ollama <status|start>"
+      ;;
+  esac
+}
+
+wun_preset_command() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    list)
+      wun_preset_list
+      ;;
+    use)
+      [ $# -ge 1 ] || wun_fail "Usage: wun preset use <name>"
+      wun_preset_use "$1"
+      ;;
+    *)
+      wun_fail "Usage: wun preset <list|use>"
+      ;;
+  esac
+}
+
+wun_agents_command() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    list)
+      wun_agents_list
+      ;;
+    *)
+      wun_fail "Usage: wun agents list"
+      ;;
+  esac
+}
+
+wun_workflows_command() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    list)
+      wun_workflows_list
+      ;;
+    show)
+      [ $# -ge 1 ] || wun_fail "Usage: wun workflows show <name>"
+      wun_workflow_show "$1"
+      ;;
+    *)
+      wun_fail "Usage: wun workflows <list|show>"
+      ;;
+  esac
+}
+
+wun_update() {
+  echo "wun update is not implemented yet."
+}
+
+wun_main "$@"

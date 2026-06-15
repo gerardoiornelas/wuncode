@@ -1,0 +1,7 @@
+{
+  "defaultPreset": "gemma4-balanced",
+  "defaultBaseModel": "gemma4-wuncode-base:latest",
+  "defaultWorkflow": "ralph-loop",
+  "defaultContextWindow": 32768,
+  "defaultEndpoint": "http://localhost:11434/v1"
+}

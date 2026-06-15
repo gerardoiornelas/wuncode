@@ -1,0 +1,9 @@
+{
+  "name": "gemma4-fast",
+  "model": "ollama/gemma4:e4b-32k",
+  "temperature": 0.2,
+  "maxTokens": 4096,
+  "contextWindow": 32768,
+  "minimumRamGb": 4,
+  "tags": ["fast", "local", "coding"]
+}
